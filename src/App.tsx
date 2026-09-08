@@ -1488,6 +1488,17 @@ function Footer() {
 export default function App() {
   const [lightboxItem, setLightboxItem] = useState<LightboxItem | null>(null);
 
+  useEffect(() => {
+    if (window.location.hash) {
+      setTimeout(() => {
+        const el = document.querySelector(window.location.hash);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#F7F5F0] text-[#2C2B29] flex flex-col selection:bg-[#6B7FA3] selection:text-[#F7F5F0]">
       <Nav />
