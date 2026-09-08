@@ -1,5 +1,87 @@
 import { useState, useRef, useEffect } from "react";
 
+export interface LightboxItem {
+  src: string;
+  alt: string;
+  title?: string;
+  tag?: string;
+  desc?: string;
+}
+
+function LightboxModal({
+  item,
+  onClose,
+}: {
+  item: LightboxItem;
+  onClose: () => void;
+}) {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
+
+  return (
+    <div
+      onClick={onClose}
+      className="fixed inset-0 z-50 bg-[#1A1918]/92 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 md:p-10 cursor-zoom-out animate-fadeIn select-none"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="relative max-w-5xl max-h-[92vh] w-full flex flex-col items-center cursor-default bg-[#262523] border border-[#44423E] shadow-2xl overflow-hidden"
+      >
+        {/* Top Header Bar */}
+        <div className="w-full flex items-center justify-between px-4 sm:px-6 py-3 bg-[#1F1E1C] border-b border-[#3E3C38] text-[11px] font-mono text-[#F7F5F0]">
+          <div className="flex items-center gap-3">
+            <span className="w-2 h-2 bg-[#6B7FA3]" />
+            <span className="text-[#A8B5CC] uppercase tracking-wider">
+              {item.tag || "NAGYÍTOTT NÉZET"}
+            </span>
+            <span className="text-[#555] hidden sm:inline">/</span>
+            <span className="text-[#DDD9D0] truncate max-w-xs sm:max-w-md hidden sm:inline">
+              {item.title || item.alt}
+            </span>
+          </div>
+          <button
+            onClick={onClose}
+            className="px-3 py-1 bg-[#33312E] hover:bg-[#4A4844] text-[#F7F5F0] transition-colors cursor-pointer flex items-center gap-2 uppercase tracking-wider text-[11px] border border-[#4E4C47]"
+          >
+            <span>Bezárás</span>
+            <span className="text-[#A8B5CC] text-[10px]">[ESC]</span>
+          </button>
+        </div>
+
+        {/* Scaled Image Display Area */}
+        <div className="relative w-full flex-1 flex items-center justify-center p-3 sm:p-6 bg-[#141312] overflow-hidden max-h-[calc(92vh-105px)]">
+          <img
+            src={item.src}
+            alt={item.alt}
+            className="max-h-[70vh] w-auto max-w-full object-contain rounded-xs shadow-2xl"
+          />
+        </div>
+
+        {/* Bottom Caption Bar */}
+        <div className="w-full px-4 sm:px-6 py-3 bg-[#1F1E1C] border-t border-[#3E3C38] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono">
+          <div className="flex flex-col">
+            <span className="text-[#F7F5F0] font-medium text-sm">
+              {item.title || item.alt}
+            </span>
+            {item.desc && (
+              <span className="text-[11px] text-[#A8B5CC] font-light mt-0.5">
+                {item.desc}
+              </span>
+            )}
+          </div>
+          <span className="text-[10px] text-[#7E8B9E] shrink-0 font-mono">
+            Kattints a háttérre vagy az ESC-re a bezáráshoz
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -14,7 +96,7 @@ function Nav() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         scrolled
           ? "bg-[#F7F5F0]/90 backdrop-blur-md border-b border-[#E8E4DC] py-4"
           : "bg-transparent py-7"
@@ -71,8 +153,8 @@ function Nav() {
             className="inline-flex items-center gap-2 px-3 py-1.5 text-[11px] font-medium text-[#2C2B29] bg-[#E8E4DC]/60 hover:bg-[#E8E4DC] transition-colors border border-[#DDD9D0] shrink-0"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-[#6B7FA3] animate-pulse" />
-            <span className="hidden sm:inline">12 hetes gyakorlatra nyitott (2026)</span>
-            <span className="sm:hidden">Gyakorlat 2026</span>
+            <span className="hidden sm:inline">12 hetes gyakorlat (2026 ősz / tél)</span>
+            <span className="sm:hidden">Gyakorlat 2026 ősz/tél</span>
           </a>
         </div>
       </div>
@@ -80,7 +162,11 @@ function Nav() {
   );
 }
 
-function Hero() {
+function Hero({
+  onOpenLightbox,
+}: {
+  onOpenLightbox?: (item: LightboxItem) => void;
+}) {
   const [timeStr, setTimeStr] = useState("");
 
   useEffect(() => {
@@ -109,11 +195,11 @@ function Hero() {
           <span className="text-[#DDD9D0]">/</span>
           <span>Vol. 2026</span>
           <span className="text-[#DDD9D0] hidden sm:inline">/</span>
-          <span className="hidden sm:inline text-[#2C2B29]">Budapest</span>
+          <span className="hidden sm:inline text-[#2C2B29]">Pilisvörösvár &amp; Budapest</span>
         </div>
         <div className="text-[11px] font-mono text-[#8E9EBA] flex items-center gap-3">
           <span className="w-1.5 h-1.5 rounded-full bg-[#6B7FA3] animate-pulse" />
-          <span>47.4979° N, 19.0402° E · BUDAPEST {timeStr && `[${timeStr} CET]`}</span>
+          <span>PILISVÖRÖSVÁR · BUDAPEST {timeStr && `[${timeStr} CET]`}</span>
         </div>
       </div>
 
@@ -150,7 +236,7 @@ function Hero() {
               href="#contact"
               className="inline-flex items-center justify-center px-6 py-3.5 bg-[#2C2B29] text-[#F7F5F0] text-xs font-medium tracking-wider uppercase hover:bg-[#6B7FA3] transition-colors"
             >
-              12 hetes gyakorlat →
+              12 hetes gyakorlat (2026 ősz / tél) →
             </a>
             <a
               href="/cv/kertesz-csanad-oneletrajz.pdf"
@@ -175,9 +261,21 @@ function Hero() {
           </div>
         </div>
 
-        {/* Clean Editorial Portrait Container — IMG_7609 */}
+        {/* Clean Editorial Portrait Container — IMG_7609 with Lightbox */}
         <div className="lg:col-span-4 flex flex-col items-start lg:items-end">
-          <div className="w-full max-w-xs aspect-[3/4] bg-[#EAE6DE] border border-[#DDD9D0] relative flex flex-col justify-between overflow-hidden group shadow-xs">
+          <div
+            onClick={() =>
+              onOpenLightbox?.({
+                src: "/images/csanad-portrait.jpg",
+                alt: "Kertész Csanád portré — IMG_7609",
+                title: "Kertész Csanád — Kreatív Stratéga & Digitális Terméktervező",
+                tag: "PORTRÉ / PILISVÖRÖSVÁR & BUDAPEST",
+                desc: "IMG_7609 — BME gazdasági alapok, digitális tartalomkészítés és felhasználói felületek tervezése.",
+              })
+            }
+            title="Kattints a portré nagyításához"
+            className="w-full max-w-xs aspect-[3/4] bg-[#EAE6DE] border border-[#DDD9D0] relative flex flex-col justify-between overflow-hidden group shadow-xs cursor-zoom-in select-none"
+          >
             {/* Real Editorial Portrait Image (IMG_7609) */}
             <div className="absolute inset-0 z-0">
               <img
@@ -189,13 +287,15 @@ function Hero() {
                   (e.target as HTMLImageElement).src = "/images/IMG_7609.jpg";
                 }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#2C2B29]/35 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition-opacity duration-500 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#2C2B29]/35 via-transparent to-transparent opacity-60 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none" />
             </div>
 
             {/* Top grid crosshair markers */}
             <div className="relative z-10 flex justify-between items-start text-[10px] font-mono text-[#F7F5F0] bg-[#2C2B29]/70 backdrop-blur-xs px-3 py-1.5 select-none">
-              <span>KC / BUDAPEST</span>
-              <span>2026 · STRATÉGIA</span>
+              <span>KC / PILISVÖRÖSVÁR &amp; BP</span>
+              <span className="flex items-center gap-1.5 text-[#A8B5CC] group-hover:text-[#F7F5F0]">
+                <span>⤢ NAGYÍTÁS</span>
+              </span>
             </div>
 
             {/* Bottom details label */}
@@ -223,7 +323,36 @@ function Hero() {
   );
 }
 
-function StrategyAndInsight() {
+function StrategyAndInsight({
+  onOpenLightbox,
+}: {
+  onOpenLightbox?: (item: LightboxItem) => void;
+}) {
+  const [strategyIndex, setStrategyIndex] = useState(0);
+
+  const strategySlides = [
+    {
+      src: "/images/bonsai-fa.jpg",
+      tag: "01 / VALÓDI BONSAI",
+      badge: "VALÓDI BONSAI (IMG_9221)",
+      title: "01. Türelem és arányok",
+      desc: "Valódi olajfa bonsai — a türelem és a tudatos arányérzék iskolája. Minden felesleges ág lemetszése a lényeget és a tartós formát erősíti.",
+      lightboxTitle: "Valódi olajfa bonsai — Türelem, ritkítás és formai fegyelem",
+      lightboxDesc: "Saját fotó (IMG_9221). A sallangmentes arányok és a növekedési ritmus analógiája.",
+    },
+    {
+      src: "/images/en-es-a-bonsai.jpg",
+      tag: "02 / KÍSÉRLETEZÉS & HUMOR",
+      badge: "ÖNAZONOS HUMOR",
+      title: "02. Csanád és a faág",
+      desc: "Csanád és a faág — játékos analógia az alkotói folyamatról: a precíz stratégiai fegyelem és a közvetlen, emberi hang kiválóan megfér egymással.",
+      lightboxTitle: "Csanád és a faág — Önreflexív alkotói folyamat és humor",
+      lightboxDesc: "Önazonos, közvetlen pillanat: komolyan venni a munkát, de sosem venni túl komolyan magunkat.",
+    },
+  ];
+
+  const currentSlide = strategySlides[strategyIndex];
+
   return (
     <section
       id="strategy"
@@ -318,36 +447,127 @@ function StrategyAndInsight() {
           </div>
         </div>
 
-        {/* Csanád és a Bonsai — Valós Stratégiai Metafora (finomított méret) */}
+        {/* 2-Slide Interactive Bonsai Switcher (Valódi Bonsai -> Csanád & Faág) */}
         <div className="lg:col-span-5 xl:col-span-4 flex flex-col items-center lg:items-end w-full mt-6 lg:mt-0">
-          <figure className="relative w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[340px] bg-[#EAE6DE] border border-[#DDD9D0] overflow-hidden group shadow-xs">
-            <div className="aspect-[4/5] w-full overflow-hidden relative">
-              <img
-                src="/images/en-es-a-bonsai.jpg"
-                alt="Kertész Csanád és a formálódó fa — Tudatos formai arányok és türelem"
-                className="w-full h-full object-cover saturate-[0.98] contrast-[1.02] group-hover:contrast-[1.10] group-hover:scale-[1.03] transition-all duration-700 ease-out"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#2C2B29]/40 via-transparent to-transparent opacity-50 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none" />
-
-              {/* Swiss grid corner tag */}
-              <div className="absolute top-0 left-0 right-0 z-10 flex justify-between items-center text-[9px] sm:text-[10px] font-mono text-[#F7F5F0] bg-[#2C2B29]/80 backdrop-blur-xs px-3.5 py-1.5 select-none">
-                <span>01. DOKUMENTÁCIÓ</span>
-                <span>TÜRELEM &amp; ARÁNYOK</span>
+          <figure className="relative w-full max-w-[290px] sm:max-w-[320px] lg:max-w-[340px] bg-[#EAE6DE] border border-[#DDD9D0] overflow-hidden group shadow-xs">
+            {/* Top Bar with Tag and Lightbox trigger */}
+            <div className="relative z-10 flex justify-between items-center text-[9px] sm:text-[10px] font-mono text-[#F7F5F0] bg-[#2C2B29]/85 backdrop-blur-xs px-3.5 py-1.5 border-b border-[#DDD9D0]/20 select-none">
+              <span className="truncate">{currentSlide.tag}</span>
+              <div className="flex items-center gap-2 shrink-0">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onOpenLightbox?.({
+                      src: currentSlide.src,
+                      alt: currentSlide.title,
+                      title: currentSlide.lightboxTitle,
+                      tag: currentSlide.tag,
+                      desc: currentSlide.lightboxDesc,
+                    });
+                  }}
+                  className="px-1.5 py-0.5 bg-[#383734] hover:bg-[#4D4C48] text-[#DDD9D0] hover:text-[#F7F5F0] transition-colors cursor-pointer flex items-center gap-1 text-[9px]"
+                  title="Kép nagyítása"
+                >
+                  <span>⤢ Nagyítás</span>
+                </button>
+                <span className="text-[#A8B5CC] font-mono">
+                  {strategyIndex + 1}/2
+                </span>
               </div>
             </div>
 
+            {/* Clickable Image Slide Area */}
+            <div
+              onClick={() =>
+                setStrategyIndex((prev) => (prev + 1) % strategySlides.length)
+              }
+              title="Kattints a kép váltásához"
+              className="aspect-[4/5] w-full overflow-hidden relative cursor-pointer group/slide select-none bg-[#E2DED5]"
+            >
+              <img
+                key={currentSlide.src}
+                src={currentSlide.src}
+                alt={currentSlide.title}
+                className="w-full h-full object-cover saturate-[0.98] contrast-[1.02] group-hover/slide:contrast-[1.08] group-hover/slide:scale-[1.03] transition-all duration-500 ease-out"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#2C2B29]/40 via-transparent to-transparent opacity-40 group-hover/slide:opacity-20 transition-opacity duration-300 pointer-events-none" />
+
+              {/* Prev / Next Arrows */}
+              <div className="absolute inset-y-0 left-2 flex items-center pointer-events-none">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setStrategyIndex((prev) => (prev === 0 ? 1 : 0));
+                  }}
+                  aria-label="Előző kép"
+                  className="w-7 h-7 rounded-full bg-[#2C2B29]/75 text-[#F7F5F0] flex items-center justify-center opacity-70 hover:opacity-100 hover:bg-[#2C2B29] transition-all pointer-events-auto cursor-pointer shadow-sm text-xs font-mono"
+                >
+                  ←
+                </button>
+              </div>
+
+              <div className="absolute inset-y-0 right-2 flex items-center pointer-events-none">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setStrategyIndex((prev) => (prev + 1) % 2);
+                  }}
+                  aria-label="Következő kép"
+                  className="w-7 h-7 rounded-full bg-[#2C2B29]/75 text-[#F7F5F0] flex items-center justify-center opacity-70 hover:opacity-100 hover:bg-[#2C2B29] transition-all pointer-events-auto cursor-pointer shadow-sm text-xs font-mono"
+                >
+                  →
+                </button>
+              </div>
+
+              {/* Hover Advance Hint Badge */}
+              <div className="absolute bottom-2 left-2 right-2 bg-[#2C2B29]/80 backdrop-blur-xs text-[#F7F5F0] py-1 px-2.5 text-[10px] font-mono flex items-center justify-between pointer-events-none opacity-90 group-hover/slide:opacity-100 transition-opacity">
+                <span>{strategyIndex === 0 ? "Kattints: 2. Csanád és a faág" : "Kattints: 1. Valódi bonsai"}</span>
+                <span className="text-[#A8B5CC]">→</span>
+              </div>
+            </div>
+
+            {/* Slide Navigation Buttons */}
+            <div className="grid grid-cols-2 border-t border-[#DDD9D0] bg-[#ECE8DF] text-[10px] font-mono">
+              <button
+                type="button"
+                onClick={() => setStrategyIndex(0)}
+                className={`py-2 px-2 text-center transition-colors cursor-pointer border-r border-[#DDD9D0] ${
+                  strategyIndex === 0
+                    ? "bg-[#2C2B29] text-[#F7F5F0] font-medium"
+                    : "text-[#666461] hover:bg-[#DDD9D0] hover:text-[#2C2B29]"
+                }`}
+              >
+                01 Valódi Bonsai
+              </button>
+              <button
+                type="button"
+                onClick={() => setStrategyIndex(1)}
+                className={`py-2 px-2 text-center transition-colors cursor-pointer ${
+                  strategyIndex === 1
+                    ? "bg-[#2C2B29] text-[#F7F5F0] font-medium"
+                    : "text-[#666461] hover:bg-[#DDD9D0] hover:text-[#2C2B29]"
+                }`}
+              >
+                02 Csanád &amp; Faág
+              </button>
+            </div>
+
+            {/* Captions */}
             <figcaption className="p-4 sm:p-5 bg-[#F7F5F0] border-t border-[#DDD9D0] flex flex-col gap-2">
               <div className="flex justify-between items-center">
                 <p className="text-xs font-medium tracking-wide uppercase text-[#2C2B29]">
-                  01. Türelem és formálás
+                  {currentSlide.title}
                 </p>
                 <span className="text-[9px] sm:text-[10px] font-mono text-[#6B7FA3] border border-[#DDD9D0] bg-[#E8E4DC]/60 px-2 py-0.5 whitespace-nowrap">
-                  SAJÁT FOTÓ
+                  {currentSlide.badge}
                 </span>
               </div>
               <p className="text-[11px] sm:text-[12px] text-[#666461] font-light leading-snug">
-                Tudatos formálás, türelmes növekedés és sallangmentes fegyelem a digitális zaj felett.
+                {currentSlide.desc}
               </p>
             </figcaption>
           </figure>
@@ -357,7 +577,11 @@ function StrategyAndInsight() {
   );
 }
 
-function SystemDesign() {
+function SystemDesign({
+  onOpenLightbox,
+}: {
+  onOpenLightbox?: (item: LightboxItem) => void;
+}) {
   const [isGrandifloraLive, setIsGrandifloraLive] = useState(false);
   const [iframeLoaded, setIframeLoaded] = useState(false);
   const [spotScreenIndex, setSpotScreenIndex] = useState(0);
@@ -461,10 +685,29 @@ function SystemDesign() {
                 </span>
               </div>
 
-              {/* Top tag banner */}
-              <div className="absolute top-3 left-3 right-3 flex justify-between items-center text-[10px] font-mono text-[#F7F5F0] bg-[#2C2B29]/75 backdrop-blur-xs px-3 py-1.5 pointer-events-none z-10">
+              {/* Top tag banner with Lightbox zoom button */}
+              <div className="absolute top-3 left-3 right-3 flex justify-between items-center text-[10px] font-mono text-[#F7F5F0] bg-[#2C2B29]/80 backdrop-blur-xs px-3 py-1.5 z-10 select-none">
                 <span>01. ESET / UX ARCHITEKTÚRA</span>
-                <span className="text-[#6B7FA3]">{currentSpot.tag}</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-[#A8B5CC] hidden sm:inline">{currentSpot.tag}</span>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onOpenLightbox?.({
+                        src: currentSpot.src,
+                        alt: currentSpot.title,
+                        title: `SpOt App — ${currentSpot.title}`,
+                        tag: currentSpot.tag,
+                        desc: currentSpot.desc,
+                      });
+                    }}
+                    className="px-2 py-0.5 bg-[#383734] hover:bg-[#4D4C48] text-[#DDD9D0] hover:text-[#F7F5F0] transition-colors cursor-pointer text-[9px] flex items-center gap-1 uppercase tracking-wider"
+                    title="Kép nagyítása"
+                  >
+                    <span>⤢ Nagyítás</span>
+                  </button>
+                </div>
               </div>
 
               {/* Bottom detail banner */}
@@ -595,12 +838,31 @@ function SystemDesign() {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#2C2B29]/90 via-[#2C2B29]/30 to-transparent opacity-80 group-hover/cover:opacity-90 transition-opacity duration-300" />
 
                   {/* Top tags */}
-                  <div className="absolute top-3 left-3 right-3 flex justify-between items-center text-[10px] font-mono text-[#F7F5F0] bg-[#2C2B29]/75 backdrop-blur-xs px-3 py-1.5 select-none">
+                  <div className="absolute top-3 left-3 right-3 flex justify-between items-center text-[10px] font-mono text-[#F7F5F0] bg-[#2C2B29]/80 backdrop-blur-xs px-3 py-1.5 z-10 select-none">
                     <span>02. ESET / FRONT-END</span>
-                    <span className="text-emerald-400 flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      ÉLES PROJEKT (VERCEL)
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onOpenLightbox?.({
+                            src: "/images/grandiflora-cover.png",
+                            alt: "Grandiflora Kert élő weboldal borítókép",
+                            title: "Grandiflora Kert — Reszponzív Tájépítészeti Weboldal",
+                            tag: "02. ESET / FRONT-END REACT",
+                            desc: "grandiflora-zold-weboldal.vercel.app — React & Vite alapú prémium kert- és tájépítészeti bemutató oldal.",
+                          });
+                        }}
+                        className="px-2 py-0.5 bg-[#383734] hover:bg-[#4D4C48] text-[#DDD9D0] hover:text-[#F7F5F0] transition-colors cursor-pointer text-[9px] flex items-center gap-1 uppercase tracking-wider"
+                        title="Kép nagyítása"
+                      >
+                        <span>⤢ Nagyítás</span>
+                      </button>
+                      <span className="text-emerald-400 flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                        ÉLES PROJEKT
+                      </span>
+                    </div>
                   </div>
 
                   {/* Center CTA button */}
@@ -1123,7 +1385,7 @@ function Footer() {
             közgazdasági logika és a precíz kivitelezés. Szívesen dolgozom briefeken,
             felhasználói kutatásokon, kampánykoncepciókon vagy digitális felületeken — és nem
             ijedek meg attól sem, ha kódhoz vagy videóvágáshoz kell nyúlni.
-            Kezdés: 2026 tavasz / nyár (rugalmasan egyeztethető).
+            Kezdés: 2026 ősz / tél (rugalmasan egyeztethető).
           </p>
 
           <div className="flex flex-wrap items-center gap-4">
@@ -1141,7 +1403,7 @@ function Footer() {
               </svg>
             </a>
             <a
-              href="mailto:hello@kerteszcsanad.com"
+              href="mailto:kertesz.csanad@gmail.com"
               className="inline-flex items-center gap-2 px-6 py-3.5 border border-[#2C2B29] text-[#2C2B29] text-xs font-mono uppercase tracking-wider hover:border-[#6B7FA3] hover:text-[#6B7FA3] transition-colors"
             >
               <span>Írj egy e-mailt ↗</span>
@@ -1156,10 +1418,10 @@ function Footer() {
               Közvetlen kapcsolat
             </span>
             <a
-              href="mailto:hello@kerteszcsanad.com"
+              href="mailto:kertesz.csanad@gmail.com"
               className="text-base sm:text-lg font-medium text-[#2C2B29] hover:text-[#6B7FA3] transition-colors"
             >
-              hello@kerteszcsanad.com
+              kertesz.csanad@gmail.com
             </a>
           </div>
 
@@ -1199,7 +1461,7 @@ function Footer() {
               Helyszín &amp; Elérhetőség
             </span>
             <p className="text-sm font-light text-[#4A4845]">
-              Budapest · Helyszíni, hibrid vagy távmunka (C1 angol)
+              Pilisvörösvár / Budapest · Rugalmas bejárás, hibrid vagy távmunka (C1 angol)
             </p>
           </div>
         </div>
@@ -1216,7 +1478,7 @@ function Footer() {
 
         <div className="flex items-center gap-6">
           <span>SVÁJCI MINIMALISTA TIPOGRÁFIA</span>
-          <span>BUDAPEST</span>
+          <span>PILISVÖRÖSVÁR · BUDAPEST</span>
         </div>
       </div>
     </footer>
@@ -1224,17 +1486,27 @@ function Footer() {
 }
 
 export default function App() {
+  const [lightboxItem, setLightboxItem] = useState<LightboxItem | null>(null);
+
   return (
     <div className="min-h-screen bg-[#F7F5F0] text-[#2C2B29] flex flex-col selection:bg-[#6B7FA3] selection:text-[#F7F5F0]">
       <Nav />
       <main className="flex-1">
-        <Hero />
-        <StrategyAndInsight />
-        <SystemDesign />
+        <Hero onOpenLightbox={setLightboxItem} />
+        <StrategyAndInsight onOpenLightbox={setLightboxItem} />
+        <SystemDesign onOpenLightbox={setLightboxItem} />
         <Certificates />
         <SoundDesign />
         <Footer />
       </main>
+
+      {/* Lightbox Zoom Modal */}
+      {lightboxItem && (
+        <LightboxModal
+          item={lightboxItem}
+          onClose={() => setLightboxItem(null)}
+        />
+      )}
     </div>
   );
 }
