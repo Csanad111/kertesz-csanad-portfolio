@@ -153,8 +153,8 @@ function Nav() {
             className="inline-flex items-center gap-2 px-3 py-1.5 text-[11px] font-medium text-[#2C2B29] bg-[#E8E4DC]/60 hover:bg-[#E8E4DC] transition-colors border border-[#DDD9D0] shrink-0"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-[#6B7FA3] animate-pulse" />
-            <span className="hidden sm:inline">12 hetes gyakorlat (2026 ősz / tél)</span>
-            <span className="sm:hidden">Gyakorlat 2026 ősz/tél</span>
+            <span className="hidden sm:inline">Nyitott Junior Pozíciókra (2026)</span>
+            <span className="sm:hidden">Junior pozíciók 2026</span>
           </a>
         </div>
       </div>
@@ -236,7 +236,7 @@ function Hero({
               href="#contact"
               className="inline-flex items-center justify-center px-6 py-3.5 bg-[#2C2B29] text-[#F7F5F0] text-xs font-medium tracking-wider uppercase hover:bg-[#6B7FA3] transition-colors"
             >
-              12 hetes gyakorlat (2026 ősz / tél) →
+              Kapcsolatfelvétel / Junior Pozíciók →
             </a>
             <a
               href="/cv/kertesz-csanad-oneletrajz.pdf"
@@ -1381,27 +1381,21 @@ function Footer() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 sm:gap-16 items-start pb-20 sm:pb-28 border-b border-[#E8E4DC]">
         <div className="lg:col-span-8">
           <p className="text-xs font-mono tracking-[0.2em] uppercase text-[#6B7FA3] mb-6">
-            05 — Szakmai Gyakorlat &amp; Kapcsolat
+            05 — Karrier &amp; Kapcsolat
           </p>
 
           <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light tracking-[-0.03em] leading-[1.05] text-[#2C2B29] mb-8">
             <span className="font-normal text-[#2C2B29]">
-              12 hetes szakmai gyakorlati
+              Junior pozíciót keresek
             </span>{" "}
-            helyet keresek{" "}
             <span className="italic font-light text-[#6B7FA3]">
-              kreatív stratégia
+              UX/UI tervezés &amp; Stratégia
             </span>{" "}
             területén.
           </h2>
 
           <p className="text-base sm:text-lg font-light text-[#4A4845] leading-relaxed max-w-2xl mb-8">
-            Olyan ügynökségi vagy stúdiócsapathoz szeretnék csatlakozni, ahol számít a valós
-            digitális kulturális érzék (25K+ követő, milliós organikus elérések), a józan
-            közgazdasági logika és a precíz kivitelezés. Szívesen dolgozom briefeken,
-            felhasználói kutatásokon, kampánykoncepciókon vagy digitális felületeken — és nem
-            ijedek meg attól sem, ha kódhoz vagy videóvágáshoz kell nyúlni.
-            Kezdés: 2026 ősz / tél (rugalmasan egyeztethető).
+            Nyitott vagyok junior feladatkörökre ügynökségeknél, stúdióknál és vállalati csapatoknál. A BME gazdasági alapjaimra, a Google UX és Meta Front-End minősítéseimre, valamint a valós tartalomgyártási tapasztalataimra (25K+ követő, milliós organikus elérések) építve azonnal értéket tudok teremteni — legyen szó felhasználói kutatásokról, wireframe-ekről, frontend kódolásról vagy digitális koncepciókról.
           </p>
 
           <div className="flex flex-wrap items-center gap-4">
