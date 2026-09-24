@@ -281,7 +281,7 @@ function Hero({
               <img
                 src="/images/csanad-portrait.jpg"
                 alt="Kertész Csanád portré — IMG_7609"
-                style={{ objectPosition: "50% 62%" }}
+                style={{ objectPosition: "50% 25%" }}
                 className="w-full h-full object-cover saturate-[0.95] contrast-[1.02] group-hover:contrast-[1.12] group-hover:scale-105 transition-all duration-700 ease-out"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = "/images/IMG_7609.jpg";
