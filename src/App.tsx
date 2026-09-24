@@ -270,7 +270,7 @@ function Hero({
                 alt: "Kertész Csanád portré — IMG_7609",
                 title: "Kertész Csanád — Kreatív Stratéga & Digitális Terméktervező",
                 tag: "PORTRÉ / PILISVÖRÖSVÁR & BUDAPEST",
-                desc: "IMG_7609 — BME gazdasági alapok, digitális tartalomkészítés és felhasználói felületek tervezése.",
+                desc: "Kodolányi Egyetem gazdálkodási & menedzsment tanulmányok (távoktatás), digitális tartalomkészítés és felhasználói felületek tervezése.",
               })
             }
             title="Kattints a portré nagyításához"
@@ -1009,7 +1009,7 @@ function Certificates() {
       category: "TELJES DOSSZIÉ",
       issuer: "Kertész Csanád",
       field: "Tanulmányok & Tapasztalatok",
-      desc: "BME gazdasági tanulmányok, stratégiai esettanulmányok, kreatív tapasztalatok és zenei referenciák egyetlen áttekinthető dokumentumban.",
+      desc: "Kodolányi Egyetem gazdálkodási & menedzsment tanulmányok (távoktatás - munkavégzést nem korlátozza), stratégiai esettanulmányok és kreatív referenciák egyetlen dokumentumban.",
       file: "/cv/kertesz-csanad-oneletrajz.pdf",
     },
   ];
@@ -1395,7 +1395,7 @@ function Footer() {
           </h2>
 
           <p className="text-base sm:text-lg font-light text-[#4A4845] leading-relaxed max-w-2xl mb-8">
-            Nyitott vagyok junior feladatkörökre ügynökségeknél, stúdióknál és vállalati csapatoknál. A BME gazdasági alapjaimra, a Google UX és Meta Front-End minősítéseimre, valamint a valós tartalomgyártási tapasztalataimra (25K+ követő, milliós organikus elérések) építve azonnal értéket tudok teremteni — legyen szó felhasználói kutatásokról, wireframe-ekről, frontend kódolásról vagy digitális koncepciókról.
+            Nyitott vagyok junior feladatkörökre ügynökségeknél, stúdióknál és vállalati csapatoknál. Jelenleg a Kodolányi János Egyetemen tanulok Gazdálkodási és menedzsment szakon távoktatásban (ami 100%-ban rugalmas, a munkavégzést egyáltalán nem korlátozza). A gazdasági szemléletemre, a Google UX és Meta Front-End minősítéseimre, valamint a valós tartalomgyártási tapasztalataimra (25K+ követő, milliós organikus elérések) építve azonnal értéket tudok teremteni — legyen szó felhasználói kutatásokról, wireframe-ekről, frontend kódolásról vagy digitális koncepciókról.
           </p>
 
           <div className="flex flex-wrap items-center gap-4">
