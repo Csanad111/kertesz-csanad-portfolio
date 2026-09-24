@@ -592,8 +592,8 @@ function SystemDesign({
       label: "Hőtérkép",
       tag: "01 / ÁTTEKINTÉS",
       src: "/images/spot-cover.png",
-      fit: "cover",
-      desc: "Városi hőtérkép: hol gyűlnek a barátok a budapesti éjszakában"
+      fit: "contain",
+      desc: "Városi hőtérkép wireframe: hol gyűlnek a barátok a budapesti éjszakában"
     },
     {
       title: "Mag Pub Helyszínlap",
@@ -618,6 +618,14 @@ function SystemDesign({
       src: "/images/spot-screen-friends.png",
       fit: "contain",
       desc: "Spontán találkozások: valós idejű távolságmérés ismerősökhöz"
+    },
+    {
+      title: "Barátok Bővített Lista",
+      label: "Bővített Lista",
+      tag: "05 / KORAI WIREFRAME",
+      src: "/images/spot-screen-friends-extended.png",
+      fit: "contain",
+      desc: "Kísérleti wireframe elrendezés a barátok listázásához"
     }
   ];
 
