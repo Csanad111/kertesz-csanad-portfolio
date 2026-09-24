@@ -626,6 +626,14 @@ function SystemDesign({
       src: "/images/spot-screen-friends-extended.png",
       fit: "contain",
       desc: "Kísérleti wireframe elrendezés a barátok listázásához"
+    },
+    {
+      title: "Beszélgetés & Chat",
+      label: "Chat",
+      tag: "06 / ÜZENETKÜLDÉS",
+      src: "/images/spot-screen-chat.png",
+      fit: "contain",
+      desc: "Spontán üzenetváltás a helyszín egyeztetéséhez ('Macskás Mirtill éppen ír...')"
     }
   ];
 
