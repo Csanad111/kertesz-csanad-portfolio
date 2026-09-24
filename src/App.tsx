@@ -311,7 +311,7 @@ function Hero({
       <div className="mt-16 pt-6 border-t border-[#E8E4DC] flex flex-wrap justify-between items-center text-[11px] font-mono text-[#8E9EBA]">
         <div className="flex items-center gap-6">
           <span>00 / BEMUTATKOZÁS</span>
-          <span className="hidden sm:inline">SVÁJCI TIPOGRÁFIA</span>
+          <span className="hidden sm:inline">DIGITÁLIS TERMÉKTERVEZÉS</span>
           <span className="hidden md:inline text-[#2C2B29]">SAJÁT GYÁRTÁSÚ ZENÉK</span>
         </div>
         <div className="flex items-center gap-4">
@@ -1487,7 +1487,7 @@ function Footer() {
         </div>
 
         <div className="flex items-center gap-6">
-          <span>SVÁJCI MINIMALISTA TIPOGRÁFIA</span>
+          <span>DIGITÁLIS PORTFÓLIÓ</span>
           <span>PILISVÖRÖSVÁR · BUDAPEST</span>
         </div>
       </div>
